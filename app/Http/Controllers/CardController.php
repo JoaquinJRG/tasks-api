@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\returnSelf;
+
 class CardController extends Controller
 {
     
@@ -17,12 +19,30 @@ class CardController extends Controller
 
     public function show($id)
     {
-        return "La carta de id: $id"; 
+        $card = Card::find($id);
+
+        if (!isset( $card )) return response()->json(["message" => "No existe"], 404);
+
+        return response()->json($card, 200); 
     }
 
-    public function store() 
+    public function store(Request $request) 
     {
-        return "Carta creada"; 
+        $request->validate([
+            "title" => "required|string",
+            "column" => "required|string",
+        ]); 
+
+        $card = new Card(); 
+
+        $card->title = $request->title; 
+        $card->column = $request->column; 
+        $card->save(); 
+
+        return response()->json([
+            "message" => "Card creada",
+            "data" => $card
+        ], 201); 
     }
 
     public function update($id)
@@ -32,7 +52,13 @@ class CardController extends Controller
 
     public function destroy($id)
     {
-        return "Carta de id: $id eliminada"; 
+        $card = Card::find($id); 
+
+        if (!isset($card)) return response()->json(["message" => "No existe"], 404); 
+
+        $card->delete(); 
+
+        return response()->json(["message" => "Card eliminada"], 200); 
     }
 
 }

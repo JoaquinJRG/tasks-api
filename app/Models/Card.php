@@ -9,3 +9,4 @@ class Card extends Model
 {
     use HasFactory;
 }
+

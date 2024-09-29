@@ -17,12 +17,32 @@ class NoteController extends Controller
 
     public function show($id)
     {
-        return "La nota de id: $id"; 
+        $note = Note::find($id); 
+
+        if (!isset( $note )) return response()->json(["message" => "No existe"], 404); 
+
+        return response()->json($note, 200);
     }
 
-    public function store() 
+    public function store(Request $request) 
     {
-        return "Nota creada"; 
+        $request->validate([
+            "title" => "required|string",
+            "text" => "required|string",
+            "color" => "required|string" 
+        ]); 
+
+        $note = new Note(); 
+
+        $note->title = $request->title; 
+        $note->text = $request->text; 
+        $note->color = $request->color; 
+        $note->save(); 
+
+        return response()->json([
+            "message" => "Nota creada",
+            "data" => $note
+        ], 201); 
     }
 
     public function update($id)
@@ -32,7 +52,13 @@ class NoteController extends Controller
 
     public function destroy($id)
     {
-        return "Nota de id: $id eliminada"; 
+        $note = Note::find($id); 
+
+        if (!isset($note)) return response()->json(["message" => "No existe"], 404); 
+
+        $note->delete(); 
+
+        return response()->json(["message" => "Nota eliminada"], 200); 
     }
 
 }
