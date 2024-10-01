@@ -54,7 +54,7 @@ class TodoController extends Controller
         return response()->json([
             "message" => "Todo actualizado",
             "data" => $todo
-        ], 201); 
+        ], 200); 
     }
 
     public function destroy($id)

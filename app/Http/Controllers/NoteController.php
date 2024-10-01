@@ -63,7 +63,7 @@ class NoteController extends Controller
         return response()->json([
             "message" => "Nota actualizada",
             "data" => $note
-        ], 201); 
+        ], 200); 
 
     }
 

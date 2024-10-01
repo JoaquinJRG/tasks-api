@@ -59,7 +59,7 @@ class CardController extends Controller
         return response()->json([
             "message" => "Card actualizada",
             "data" => $card
-        ]);
+        ], 200);
 
     }
 
