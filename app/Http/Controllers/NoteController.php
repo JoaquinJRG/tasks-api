@@ -45,9 +45,26 @@ class NoteController extends Controller
         ], 201); 
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
-        return "Nota de id: $id actualizada";
+        $request->validate([
+            "title" => "required|string",
+            "text" => "required|string",
+            "color" => "required|string"
+        ]); 
+
+        $note = Note::find($id); 
+
+        $note->title = $request->title;
+        $note->text = $request->text;
+        $note->color = $request->color;
+        $note->save(); 
+
+        return response()->json([
+            "message" => "Nota actualizada",
+            "data" => $note
+        ], 201); 
+
     }
 
     public function destroy($id)
