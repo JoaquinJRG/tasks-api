@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -37,11 +38,26 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected function casts(): array 
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class, "userId", "id");
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class, "userId", "id");
+    }
+
+    public function cards(): HasMany
+    {
+        return $this->hasMany(Card::class, "userId", "id");
     }
 }

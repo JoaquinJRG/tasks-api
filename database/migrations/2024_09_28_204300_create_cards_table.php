@@ -16,6 +16,13 @@ return new class extends Migration
             $table->string("title");
             $table->string("column");
             $table->timestamps();
+
+            $table->unsignedBigInteger("userId"); 
+
+            $table->foreignId("userId")
+                ->constrained()
+                ->onDelete("cascade")
+                ->onUpdate("cascade");
         });
     }
 

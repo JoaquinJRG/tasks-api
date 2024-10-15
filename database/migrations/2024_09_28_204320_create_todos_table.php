@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string("text");
             $table->boolean("isDone")->default(false); 
             $table->timestamps();
+
+            $table->foreignId("userId")
+                ->constrained()
+                ->onDelete("cascade")
+                ->onUpdate("cascade");
         });
     }
 
